@@ -1,0 +1,27 @@
+language: python
+python: 3.5
+env:
+  matrix:
+    - TEST_SUITE=static_checks
+    - TEST_SUITE=py35
+install:
+  - sudo apt-get update -y -qq
+  # Instal Miniconda3
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+  # Create environment
+  - conda env create -f environment.yml -q
+  - source activate image-quantizer
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  # Give xvfb some time to start
+  - sleep 3
+script:
+  - ./test.sh $TEST_SUITE
