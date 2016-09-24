@@ -57,9 +57,6 @@ class QuantizedImage(object):
 
 class ImageQuantizer(object):
 
-    def __init__(self):
-        self._latest_quantized_images = []
-
     def quantize(self, n_colors, method=None, raster=None, image_filename=None,
                  **kwargs):
         if raster is None and image_filename is None:
