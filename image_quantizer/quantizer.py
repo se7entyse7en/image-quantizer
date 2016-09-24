@@ -25,7 +25,7 @@ def compare(*quantized_images):
     for method, qimages in grouped_qimages.items():
         for qi in qimages:
             plt.subplot(n_rows, n_cols, counter)
-            qi.show(display=False, new_figure=False)
+            qi.render(show=False, new_figure=False)
             counter += 1
 
     plt.show()
@@ -41,7 +41,7 @@ class QuantizedImage(object):
         self._n_colors = n_colors
         self._kwargs = kwargs
 
-    def show(self, display=True, new_figure=True):
+    def render(self, show=True, new_figure=True):
         if new_figure:
             plt.figure()
             plt.clf()
@@ -50,7 +50,8 @@ class QuantizedImage(object):
             method=self._method, n_colors=self._n_colors))
         plt.imshow(self._quantized_raster)
 
-        if display:
+        plt.draw()
+        if show:
             plt.show()
 
 
