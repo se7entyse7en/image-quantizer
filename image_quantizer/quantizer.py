@@ -54,16 +54,14 @@ class QuantizedImage(object):
                  **kwargs):
         """Initializes a :class:`QuantizedImage`
 
-        :param :class:`numpy.ndarray` original_raster: the raster of the
-                                                       original image in RGB
-                                                       with values normalized
-                                                       in [0, 1] and shape
-                                                       (width, height, 3).
-        :param :class:`numpy.ndarray` quantized_raster: the raster of the
-                                                        quantized image in RGB
-                                                        with values normalized
-                                                        in [0, 1] and shape
-                                                        (width, height, 3).
+        :param numpy.ndarray original_raster: the raster of the original image
+                                              in RGB with values normalized
+                                              in [0, 1] and shape (width,
+                                              height, 3).
+        :param numpy.ndarray quantized_raster: the raster of the quantized
+                                               image in RGB with values
+                                               normalized in [0, 1] and shape
+                                               (width, height, 3).
         :param str method: the name of the method used for the color
                            quantization.
         :param int n_colors: the number of colors used to obtain the quantized
@@ -129,15 +127,14 @@ class ImageQuantizer(object):
                              quantization.
         :param str method: the name of the method to use for the color
                            quantization.
-        :param :class:`numpy.ndarray` raster: the raster of the image in RGB
-                                              with values in [0, 255] and shape
-                                              (width, height, 3).
+        :param numpy.ndarray raster: the raster of the image in RGB with values
+                                     in [0, 255] and shape (width, height, 3).
         :param str image_filename: the path of the image to quantize.
         :param **dict kwargs: extra parameters to use for the color
                               quantization.
 
-        :raises TypeError: if the both :param:`raster` and
-                           :param:`image_filename` are `None`.
+        :raises TypeError: if the both `raster` and `image_filename` are
+                           `None`.
 
         """
         if raster is None and image_filename is None:
@@ -166,9 +163,8 @@ class ImageQuantizer(object):
                                         element is a dictionary with keys
                                         `n_colors` and `method` (see
                                         :meth:`ImageQuantizer.quantize`).
-        :param :class:`numpy.ndarray` raster: the raster of the image in RGB
-                                              with values in [0, 255] and shape
-                                              (width, height, 3).
+        :param numpy.ndarray raster: the raster of the image in RGB with values
+                                     in [0, 255] and shape (width, height, 3).
         :param str image_filename: the path of the image to quantize.
 
         """
