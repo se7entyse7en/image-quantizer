@@ -16,9 +16,9 @@ class ImageQuantizerTestCase(unittest.TestCase):
         q = quantizer.ImageQuantizer()
 
         q.quantize(n_colors=8, method='random',
-                   image_filename=self._get_image_path('Lenna.png')),
+                   image_filename=self._get_image_path('Lenna.png'))
         q.quantize(n_colors=8, method='kmeans',
-                   image_filename=self._get_image_path('Lenna.png')),
+                   image_filename=self._get_image_path('Lenna.png'))
 
     def test_quantize_multi(self):
         q = quantizer.ImageQuantizer()
