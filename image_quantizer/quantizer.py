@@ -114,6 +114,15 @@ class ImageQuantizer(object):
         'kmeans': KMeansQuantizer,
     }
 
+    def __init__(self, default_method=None):
+        """Initializes a :class:`ImageQuantizer`
+
+        :param str method: the name of the method to use by default for the
+                           color quantization.
+
+        """
+        self._default_method = default_method
+
     def quantize(self, n_colors, method=None, raster=None, image_filename=None,
                  **kwargs):
         """Quantizes the given image or raster using the given parameters
@@ -140,7 +149,7 @@ class ImageQuantizer(object):
         if raster is None:
             raster = scipy.misc.imread(image_filename) / 255.0
 
-        method = (method or self._method).lower()
+        method = (method or self._default_method).lower()
 
         concrete_quantizer = self.method_choices[method]
 
