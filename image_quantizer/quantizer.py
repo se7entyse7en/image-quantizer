@@ -57,6 +57,11 @@ class QuantizedImage(object):
 
 class ImageQuantizer(object):
 
+    method_choices = {
+        'random': RandomQuantizer,
+        'kmeans': KMeansQuantizer,
+    }
+
     def quantize(self, n_colors, method=None, raster=None, image_filename=None,
                  **kwargs):
         if raster is None and image_filename is None:
@@ -68,10 +73,7 @@ class ImageQuantizer(object):
 
         method = (method or self._method).lower()
 
-        concrete_quantizer = {
-            'random': RandomQuantizer,
-            'kmeans': KMeansQuantizer,
-        }[method]
+        concrete_quantizer = self.method_choices[method]
 
         quantized_raster = concrete_quantizer.quantize(
             raster, n_colors, **kwargs)
