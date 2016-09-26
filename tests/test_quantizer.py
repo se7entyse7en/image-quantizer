@@ -2,8 +2,6 @@ import os
 import unittest
 from unittest import mock
 
-import matplotlib.pyplot as plt
-
 from image_quantizer import quantizer
 
 
@@ -16,9 +14,9 @@ class ImageQuantizerTestCase(unittest.TestCase):
         q = quantizer.ImageQuantizer()
 
         q.quantize(n_colors=8, method='random',
-                   image_filename=self._get_image_path('Lenna.png')),
+                   image_filename=self._get_image_path('Lenna.png'))
         q.quantize(n_colors=8, method='kmeans',
-                   image_filename=self._get_image_path('Lenna.png')),
+                   image_filename=self._get_image_path('Lenna.png'))
 
     def test_quantize_multi(self):
         q = quantizer.ImageQuantizer()
@@ -38,5 +36,5 @@ class ImageQuantizerTestCase(unittest.TestCase):
             {'n_colors': 16, 'method': 'kmeans'},
         ], image_filename=self._get_image_path('Lenna.png'))
 
-        with mock.patch('image_quantizer.quantizer.plt.show', plt.draw):
+        with mock.patch('image_quantizer.quantizer.plt.show', lambda: None):
             quantizer.compare(*qimages)
