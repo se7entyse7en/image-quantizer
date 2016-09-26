@@ -57,6 +57,7 @@ def compare(*quantized_images):
     plt.subplot(n_rows, 1, 1)
     plt.title('original')
     plt.imshow(original_raster)
+    plt.axis('off')
     plt.draw()
 
     for i, (method, qimages) in enumerate(grouped_qimages.items(), 1):
@@ -64,6 +65,7 @@ def compare(*quantized_images):
         for qi in qimages:
             plt.subplot(n_rows, n_cols, counter)
             qi.render(show=False, new_figure=False)
+            plt.axis('off')
             counter += 1
 
     plt.show()
