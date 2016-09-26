@@ -6,6 +6,8 @@
 from itertools import groupby
 from operator import attrgetter
 
+import numpy as np
+
 import scipy.misc
 
 import matplotlib.pyplot as plt
@@ -14,26 +16,51 @@ from image_quantizer.concrete_quantizer import KMeansQuantizer
 from image_quantizer.concrete_quantizer import RandomQuantizer
 
 
+def _all_equal(iterator):
+    try:
+        iterator = iter(iterator)
+        first = next(iterator)
+        return all(np.array_equal(first, rest) for rest in iterator)
+    except StopIteration:
+        return True
+
+
 def compare(*quantized_images):
     """Compare multiple :class:`QuantizedImage` by showing them
 
     The quantized images are shown using a matrix disposition. Each row
     correspond to a method and the quantized images are sorted by increasing
-    number of color used.
+    number of color used. The first row contains the original image.
 
     :param *QuantizedImage quantized_images: the quantized images to compare.
 
+    :raises RuntimeError: if the oritinal images associated to the
+                          `QuantizedImage`s are not the same.
+
     """
+    original_rasters = [x._original_raster for x in quantized_images]
+
+    if _all_equal(original_rasters) > 1:
+        raise RuntimeError('Cannot compare multiple quantized images of '
+                           'different images at the same time.')
+
+    original_raster = original_rasters[0]
+
     plt.figure()
 
     grouped_qimages = dict((k, list(v)) for k, v in groupby(
         sorted(quantized_images, key=attrgetter('_method')),
         key=attrgetter('_method')))
-    n_rows = len(grouped_qimages)
+    n_rows = len(grouped_qimages) + 1
     n_cols = max(len(list(x)) for x in grouped_qimages.values())
 
-    counter = 1
-    for method, qimages in grouped_qimages.items():
+    plt.subplot(n_rows, 1, 1)
+    plt.title('original')
+    plt.imshow(original_raster)
+    plt.draw()
+
+    for i, (method, qimages) in enumerate(grouped_qimages.items(), 1):
+        counter = i * n_cols + 1
         for qi in qimages:
             plt.subplot(n_rows, n_cols, counter)
             qi.render(show=False, new_figure=False)
