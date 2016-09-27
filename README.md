@@ -18,7 +18,17 @@ performed on the same image using random selection and K-means:
 
     q = quantizer.ImageQuantizer()
 
-    out1 = q.quantize(n_colors=8, method='random', image_filename='myimage.png')
-    out2 = q.quantize(n_colors=8, method='kmeans', image_filename='myimage.png')
+    qimages = q.quantize_multi([
+        {'n_colors': 8, 'method': 'random'},
+        {'n_colors': 16, 'method': 'random'},
+        {'n_colors': 32, 'method': 'random'},
+        {'n_colors': 8, 'method': 'kmeans'},
+        {'n_colors': 16, 'method': 'kmeans'},
+        {'n_colors': 32, 'method': 'kmeans'}
+    ], image_filename='tests/fixtures/Lenna.png')
 
-    quantizer.compare(out1, out2)
+    quantizer.compare(*qimages)
+
+The output will be something as follows:
+
+![demo](demo.png "Demo image")
