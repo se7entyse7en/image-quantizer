@@ -28,3 +28,7 @@ performed on the same image using random selection and K-means:
     ], image_filename='tests/fixtures/Lenna.png')
 
     quantizer.compare(*qimages)
+
+The output will be something as follows:
+
+![demo](demo.png "Demo image")
