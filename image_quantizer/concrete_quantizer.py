@@ -23,8 +23,7 @@ class IConcreteQuantizer(object):
         """Quantizes the given raster using the given parameters
 
         :param numpy.ndarray raster: the raster of the image in RGB with values
-                                     normalized in in [0, 1] and shape (width,
-                                     height, 3).
+                                     in [0, 255] and shape (width, height, 3).
         :param int n_colors: the number of colors to use for the color
                              quantization.
 
