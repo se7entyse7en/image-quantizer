@@ -10,6 +10,8 @@ from sklearn import cluster
 from sklearn.metrics import pairwise_distances_argmin
 from sklearn.utils import shuffle
 
+from skimage import color
+
 
 class IConcreteQuantizer(object):
     """Interface of a concrete quantizer
@@ -23,8 +25,7 @@ class IConcreteQuantizer(object):
         """Quantizes the given raster using the given parameters
 
         :param numpy.ndarray raster: the raster of the image in RGB with values
-                                     normalized in in [0, 1] and shape (width,
-                                     height, 3).
+                                     in [0, 255] and shape (width, height, 3).
         :param int n_colors: the number of colors to use for the color
                              quantization.
 
@@ -72,3 +73,35 @@ class KMeansQuantizer(IConcreteQuantizer):
         quantized_raster = cls._recreate_image(palette, labels, width, height)
 
         return quantized_raster
+
+
+class RGBtoLABmixin(object):
+    """Converts RGB to LAB and viceversa before and after quantization"""
+
+    @classmethod
+    def quantize(cls, raster, n_colors, **kwargs):
+        lab_raster = color.rgb2lab(raster)
+        lab_quantized_raster = super(RGBtoLABmixin, cls).quantize(
+            lab_raster, n_colors, **kwargs)
+        quantized_raster = (color.lab2rgb(lab_quantized_raster) * 255).astype(
+            'uint8')
+
+        return quantized_raster
+
+
+class RandomQuantizerLAB(RGBtoLABmixin, RandomQuantizer):
+    """Concrete quantizer that randomly selects the color palette
+
+    Instead of using RGB space it uses LAB space.
+
+    """
+    pass
+
+
+class KMeansQuantizerLAB(RGBtoLABmixin, KMeansQuantizer):
+    """Concrete quantizer that selects the color palette using K-means
+
+    Instead of using RGB space it uses LAB space.
+
+    """
+    pass

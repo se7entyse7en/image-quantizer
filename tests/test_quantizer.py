@@ -17,6 +17,10 @@ class ImageQuantizerTestCase(unittest.TestCase):
                    image_filename=self._get_image_path('Lenna.png'))
         q.quantize(n_colors=8, method='kmeans',
                    image_filename=self._get_image_path('Lenna.png'))
+        q.quantize(n_colors=8, method='random+lab',
+                   image_filename=self._get_image_path('Lenna.png'))
+        q.quantize(n_colors=8, method='kmeans+lab',
+                   image_filename=self._get_image_path('Lenna.png'))
 
     def test_quantize_multi(self):
         q = quantizer.ImageQuantizer()
@@ -24,6 +28,8 @@ class ImageQuantizerTestCase(unittest.TestCase):
         q.quantize_multi([
             {'n_colors': 8, 'method': 'random'},
             {'n_colors': 8, 'method': 'kmeans'},
+            {'n_colors': 8, 'method': 'random+lab'},
+            {'n_colors': 8, 'method': 'kmeans+lab'},
         ], image_filename=self._get_image_path('Lenna.png'))
 
     def test_compare(self):
@@ -34,6 +40,10 @@ class ImageQuantizerTestCase(unittest.TestCase):
             {'n_colors': 16, 'method': 'random'},
             {'n_colors': 8, 'method': 'kmeans'},
             {'n_colors': 16, 'method': 'kmeans'},
+            {'n_colors': 8, 'method': 'random+lab'},
+            {'n_colors': 16, 'method': 'random+lab'},
+            {'n_colors': 8, 'method': 'kmeans+lab'},
+            {'n_colors': 16, 'method': 'kmeans+lab'},
         ], image_filename=self._get_image_path('Lenna.png'))
 
         with mock.patch('image_quantizer.quantizer.plt.show', lambda: None):

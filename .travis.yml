@@ -6,8 +6,9 @@ env:
     - TEST_SUITE=py35
 install:
   - sudo apt-get update -y -qq
-  # Instal Miniconda3
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  # Install Miniconda3
+  # Current latest version 4.2.11 seem to be broken as misses yaml dependency
+  - wget https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh -O miniconda.sh;
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r

@@ -13,7 +13,9 @@ import scipy.misc
 import matplotlib.pyplot as plt
 
 from image_quantizer.concrete_quantizer import KMeansQuantizer
+from image_quantizer.concrete_quantizer import KMeansQuantizerLAB
 from image_quantizer.concrete_quantizer import RandomQuantizer
+from image_quantizer.concrete_quantizer import RandomQuantizerLAB
 
 
 def _all_equal(iterator):
@@ -56,7 +58,7 @@ def compare(*quantized_images):
 
     plt.subplot(n_rows, 1, 1)
     plt.title('original')
-    plt.imshow(original_raster)
+    plt.imshow(original_raster / 255.0)
     plt.axis('off')
     plt.draw()
 
@@ -84,13 +86,12 @@ class QuantizedImage(object):
         """Initializes a :class:`QuantizedImage`
 
         :param numpy.ndarray original_raster: the raster of the original image
-                                              in RGB with values normalized
-                                              in [0, 1] and shape (width,
-                                              height, 3).
+                                              in RGB with values in [0, 255]
+                                              and shape (width, height, 3).
         :param numpy.ndarray quantized_raster: the raster of the quantized
-                                               image in RGB with values
-                                               normalized in [0, 1] and shape
-                                               (width, height, 3).
+                                               image in RGB with values in
+                                               [0, 255] and shape (width,
+                                               height, 3).
         :param str method: the name of the method used for the color
                            quantization.
         :param int n_colors: the number of colors used to obtain the quantized
@@ -118,7 +119,7 @@ class QuantizedImage(object):
 
         plt.title('{method} ({n_colors})'.format(
             method=self._method, n_colors=self._n_colors))
-        plt.imshow(self._quantized_raster)
+        plt.imshow(self._quantized_raster / 255.0)
 
         plt.draw()
         if show:
@@ -137,6 +138,8 @@ class ImageQuantizer(object):
     method_choices = {
         'random': RandomQuantizer,
         'kmeans': KMeansQuantizer,
+        'random+lab': RandomQuantizerLAB,
+        'kmeans+lab': KMeansQuantizerLAB,
     }
 
     def __init__(self, default_method=None):
@@ -155,7 +158,8 @@ class ImageQuantizer(object):
         :param int n_colors: the number of colors to use for the color
                              quantization.
         :param str method: the name of the method to use for the color
-                           quantization.
+                           quantization (possible values: 'random', 'kmeans',
+                           'random+lab', 'kmeans+lab').
         :param numpy.ndarray raster: the raster of the image in RGB with values
                                      in [0, 255] and shape (width, height, 3).
         :param str image_filename: the path of the image to quantize.
@@ -170,8 +174,7 @@ class ImageQuantizer(object):
             raise TypeError('At least `raster` or `image_filename` must be '
                             'defined')
 
-        if raster is None:
-            raster = scipy.misc.imread(image_filename) / 255.0
+        raster = raster or scipy.misc.imread(image_filename)
 
         method = (method or self._default_method).lower()
 
