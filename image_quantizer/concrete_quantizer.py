@@ -76,6 +76,7 @@ class KMeansQuantizer(IConcreteQuantizer):
 
 
 class RGBtoLABmixin(object):
+    """Converts RGB to LAB and viceversa before and after quantization"""
 
     @classmethod
     def quantize(cls, raster, n_colors, **kwargs):
@@ -89,8 +90,18 @@ class RGBtoLABmixin(object):
 
 
 class RandomQuantizerLAB(RGBtoLABmixin, RandomQuantizer):
+    """Concrete quantizer that randomly selects the color palette
+
+    Instead of using RGB space it uses LAB space.
+
+    """
     pass
 
 
 class KMeansQuantizerLAB(RGBtoLABmixin, KMeansQuantizer):
+    """Concrete quantizer that selects the color palette using K-means
+
+    Instead of using RGB space it uses LAB space.
+
+    """
     pass

@@ -158,7 +158,8 @@ class ImageQuantizer(object):
         :param int n_colors: the number of colors to use for the color
                              quantization.
         :param str method: the name of the method to use for the color
-                           quantization.
+                           quantization (possible values: 'random', 'kmeans',
+                           'random+lab', 'kmeans+lab').
         :param numpy.ndarray raster: the raster of the image in RGB with values
                                      in [0, 255] and shape (width, height, 3).
         :param str image_filename: the path of the image to quantize.
