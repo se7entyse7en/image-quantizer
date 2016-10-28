@@ -10,6 +10,8 @@ from sklearn import cluster
 from sklearn.metrics import pairwise_distances_argmin
 from sklearn.utils import shuffle
 
+from skimage import color
+
 
 class IConcreteQuantizer(object):
     """Interface of a concrete quantizer
@@ -71,3 +73,24 @@ class KMeansQuantizer(IConcreteQuantizer):
         quantized_raster = cls._recreate_image(palette, labels, width, height)
 
         return quantized_raster
+
+
+class RGBtoLABmixin(object):
+
+    @classmethod
+    def quantize(cls, raster, n_colors, **kwargs):
+        lab_raster = color.rgb2lab(raster)
+        lab_quantized_raster = super(RGBtoLABmixin, cls).quantize(
+            lab_raster, n_colors, **kwargs)
+        quantized_raster = (color.lab2rgb(lab_quantized_raster) * 255).astype(
+            'uint8')
+
+        return quantized_raster
+
+
+class RandomQuantizerLAB(RGBtoLABmixin, RandomQuantizer):
+    pass
+
+
+class KMeansQuantizerLAB(RGBtoLABmixin, KMeansQuantizer):
+    pass

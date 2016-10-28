@@ -13,7 +13,9 @@ import scipy.misc
 import matplotlib.pyplot as plt
 
 from image_quantizer.concrete_quantizer import KMeansQuantizer
+from image_quantizer.concrete_quantizer import KMeansQuantizerLAB
 from image_quantizer.concrete_quantizer import RandomQuantizer
+from image_quantizer.concrete_quantizer import RandomQuantizerLAB
 
 
 def _all_equal(iterator):
@@ -136,6 +138,8 @@ class ImageQuantizer(object):
     method_choices = {
         'random': RandomQuantizer,
         'kmeans': KMeansQuantizer,
+        'random+lab': RandomQuantizerLAB,
+        'kmeans+lab': KMeansQuantizerLAB,
     }
 
     def __init__(self, default_method=None):
