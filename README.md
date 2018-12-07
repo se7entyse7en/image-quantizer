@@ -32,3 +32,8 @@ performed on the same image using random selection and K-means:
 The output will be something as follows:
 
 ![demo](demo.png "Demo image")
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fse7entyse7en%2Fimage-quantizer.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fse7entyse7en%2Fimage-quantizer?ref=badge_shield)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fse7entyse7en%2Fimage-quantizer.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fse7entyse7en%2Fimage-quantizer?ref=badge_large)
